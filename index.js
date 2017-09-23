@@ -19,7 +19,7 @@ exports.ricetrav = (req, res) => {
   function locationIntent(app){
     let city = app.getArgument('city')
 	app.data.city = city;
-    app.ask('We got your city.' + app.data.city + '. Where would you like to go today?')
+    app.ask('We got your city.' + app.data.city + '. Where would you like to go?')
   }
 
 
@@ -81,8 +81,9 @@ exports.ricetrav = (req, res) => {
 	  let food = app.getArgument('food')
 	  app.data.food = food
 	  //TODO API request
-	  app.ask('We\'ve handled your food, we just need your email address to send you your new itinerary.');
+	  app.ask('Would you like to choose the restaurants we\'ve picked out for you?');
   }
+
 
   let actionMap = new Map();
   actionMap.set(FOOD_INTENT, getFood)
