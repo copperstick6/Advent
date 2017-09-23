@@ -4,3 +4,5 @@ package-lock.json
 flask_backend/\\
 node_modules/
 action.json
+flask_backend/*.swp
+flask_backend/*.swo
