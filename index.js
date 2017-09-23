@@ -2,14 +2,18 @@
 
 const ApiAiApp = require('actions-on-google').ApiAiApp
 
+var moment = require('moment');
+var request = require('request');
 const WELCOME_INTENT = 'input.welcome'; //this is the name rom the API.AI intent. check the API.AI event console.
 const LOCATION_INTENT = 'input.loc';
 const DEST_INTENT = 'input.dest';
 const GO_TIME_INTENT = 'input.go'
 const GET_BACK_TIME_INTENT = 'input.comeback'
-const FOOD_INTENT = 'input.food'
-var moment = require('moment');
-var request = require('request');
+const GET_EMAIL = 'input.email'
+const GET_PARENT_KID = 'input.people'
+const NO_TRAVEL_NEEDED = 'input.doneNoArrangement'
+const GET_PEOPLE_NUMBER = 'input.peopleNum'
+const GET_PLANE_OR_CAR = 'input.planeCar'
 exports.ricetrav = (req, res) => {
   const app = new ApiAiApp({ request: req, response: res});
   function welcomeIntent(app){
@@ -74,19 +78,40 @@ exports.ricetrav = (req, res) => {
 	  	 request(options, function (error, response, body) {
 	  	});
 	  	*/
-	  app.ask('What category of food do you like to eat? Say any if you don\'t have a preference. We\'ll handle your events.');
+	  app.ask('Please type in your email.');
   }
 
-  function getFood(app){
-	  let food = app.getArgument('food')
-	  app.data.food = food
-	  //TODO API request
-	  app.ask('Would you like to choose the restaurants we\'ve picked out for you?');
-  }
+	function getEmail(app){
+		let email = app.getArgument('email')
+		app.data.email = email
+		app.ask("Great! Do you need travel accomodations or would you like for us to arrange them?")
+	}
 
+	function needArrangement(app){
+		app.ask("Sounds good. How many Children (Eighteen or below) and adults will be going on this trip?")
+	}
+
+	function peopleNum(app){
+		let kids = app.getArgument('kids')
+		let adults = app.getArgument('adults')
+		app.data.kids = kids
+		app.data.adults = adults
+		app.ask("Would you like to go by plane or car or would you like to look at both options?")
+	}
+	function getPlaneOrCar(app){
+		let choice = app.getArgument('choice')
+		app.tell("Cool, we've got your details. Check your email for a full trip itinerary for you trip from " + app.data.city + " to " + app.data.destCity + ". Have a good time!")
+	}
+	function noArrangement(app){
+		app.tell("Cool, we've got your details. Check your email for a full trip itinerary for you trip from " + app.data.city + " to " + app.data.destCity + ". Have a good time!")
+	}
 
   let actionMap = new Map();
-  actionMap.set(FOOD_INTENT, getFood)
+  actionMap.set(GET_PLANE_OR_CAR, getPlaneOrCar)
+  actionMap.set(GET_PEOPLE_NUMBER, peopleNum)
+  actionMap.set(NO_TRAVEL_NEEDED, noArrangement)
+  actionMap.set(GET_PARENT_KID, needArrangement)
+  actionMap.set(GET_EMAIL, getEmail)
   actionMap.set(GET_BACK_TIME_INTENT, comeBack);
   actionMap.set(GO_TIME_INTENT, leaveTime)
   actionMap.set(DEST_INTENT, destinationIntent)
