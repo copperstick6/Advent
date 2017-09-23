@@ -3,3 +3,4 @@ flask_backend/__pycache__/
 package-lock.json
 flask_backend/\\
 node_modules/
+action.json
