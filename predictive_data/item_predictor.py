@@ -24,5 +24,3 @@ def getFoodLink():
 	urlCopy = urlCopy + "ASIN.4=" + food4 + "&Quantity.4=1&"
 	urlCopy = urlCopy + "ASIN.5=" + food5 + "&Quantity.5=1&add=add"
 	return urlCopy
-
-print(getFoodLink())
