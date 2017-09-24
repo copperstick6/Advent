@@ -24,23 +24,17 @@ exports.ricetrav = (req, res) => {
     let city = app.getArgument('city')
 	app.data.city = city;
 	//127.0.0.1:5000/api/set_current_location?current_location="Houston"
-	/*
-	var request = require("request");
-
-var options = { method: 'GET',
-  url: 'http://127.0.0.1:5000/api/set_current_location',
-  qs: { current_location: '"Houston"' },
-  headers:
+	var options = { method: 'GET',
+  	url: 'http://127.0.0.1:5000/api/set_current_location',
+  	qs: { current_location: app.data.city },
+  	headers:
    { 'postman-token': 'c4740545-7ffb-04db-db5a-c3602afca037',
      'cache-control': 'no-cache' } };
 
-request(options, function (error, response, body) {
-  if (error) throw new Error(error);
+	 request(options, function (error, response, body) {
+		 app.ask('We got your city.' + app.data.city + '. Where would you like to go?')
 
-  console.log(body);
-});
-*/
-    app.ask('We got your city.' + app.data.city + '. Where would you like to go?')
+	 });
   }
 
 
@@ -48,23 +42,16 @@ request(options, function (error, response, body) {
     let destCity = app.getArgument('destCity')
  	app.data.destCity = destCity;
 	//127.0.0.1:5000/api/set_destination?destination="Austin"
-	/*var request = require("request");
-
-var options = { method: 'GET',
-  url: 'http://127.0.0.1:5000/api/set_destination',
-  qs: { destination: '"Austin"' },
-  headers:
+	var options = { method: 'GET',
+  	url: 'http://127.0.0.1:5000/api/set_destination',
+  	qs: { destination: app.data.destCity },
+  	headers:
    { 'postman-token': '13f3741e-f365-c952-4c48-555dcfb1552f',
      'cache-control': 'no-cache' } };
 
-request(options, function (error, response, body) {
-  if (error) throw new Error(error);
-
-  console.log(body);
-});
-
-*/
-    app.ask('So you\'d like to go from ' + app.data.city + ' to ' +  app.data.destCity  + '. When would you like to go there?')
+	 request(options, function (error, response, body) {
+		 app.ask('So you\'d like to go from ' + app.data.city + ' to ' +  app.data.destCity  + '. When would you like to go there?')
+	 });
   }
 
   function leaveTime(app){
@@ -74,24 +61,16 @@ request(options, function (error, response, body) {
 	  app.data.goDay = moment(app.data.goTime).utc().date()
 	  app.data.goMonth = parseInt(moment(app.data.goTime).local().month().toString()) + 1
 	  app.data.goYear = moment(app.data.goTime).local().year()
-	  /*
-	  var request = require("request");
+	  var options = { method: 'GET',
+  	url: 'http://127.0.0.1:5000/api/set_departure_time',
+  	qs: { year: app.data.goYear, month: app.data.goMonth, day: app.data.goDay, hour: app.data.goHour },
+  	headers:
+   	{ 'postman-token': 'd5bccb80-28c6-b79e-2481-9faa3478f5dd',
+     	'cache-control': 'no-cache' } };
 
-var options = { method: 'GET',
-  url: 'http://127.0.0.1:5000/api/set_departure_time',
-  qs: { year: '2017', month: '09', day: '25', hour: '12' },
-  headers:
-   { 'postman-token': 'd5bccb80-28c6-b79e-2481-9faa3478f5dd',
-     'cache-control': 'no-cache' } };
-
-request(options, function (error, response, body) {
-  if (error) throw new Error(error);
-
-  console.log(body);
-});
-
-*/
-	  app.ask('Cool, when would you like to get back?');
+	request(options, function (error, response, body) {
+  		app.ask('Cool, when would you like to get back?');
+	});
   }
   function comeBack(app){
 	  let comeBack = app.getArgument('comeBack')
@@ -100,46 +79,32 @@ request(options, function (error, response, body) {
 	  app.data.comeDay = moment(app.data.comeBack).utc().date()
 	  app.data.comeMonth = parseInt(moment(app.data.comeBack).local().month().toString()) + 1
 	  app.data.comeYear = moment(app.data.comeBack).local().year()
-	  /*
-	  var request = require("request");
-
-var options = { method: 'GET',
-  url: 'http://127.0.0.1:5000/api/set_return_time',
-  qs: { year: '2017', month: '09', day: '28', hour: '12' },
-  headers:
-   { 'postman-token': 'aa5e1b78-1f81-add8-b00a-67eab134ad46',
+	  var options = { method: 'GET',
+  	url: 'http://127.0.0.1:5000/api/set_return_time',
+  	qs: { year: app.data.comeYear, month: app.data.comeMonth, day: app.data.comeDay, hour: app.data.comeDay },
+  	headers:
+   	{ 'postman-token': 'aa5e1b78-1f81-add8-b00a-67eab134ad46',
      'cache-control': 'no-cache' } };
 
-request(options, function (error, response, body) {
-  if (error) throw new Error(error);
+	 request(options, function (error, response, body) {
+  	app.ask('Please type in your email.');
+	});
 
-  console.log(body);
-});
-
-*/
-	  app.ask('Please type in your email.');
   }
 
 	function getEmail(app){
 		let email = app.getArgument('email')
 		app.data.email = email
-		/*
-		var request = require("request");
-
-var options = { method: 'GET',
-  url: 'http://localhost:5000/api/set_email',
-  qs: { email: 'davidzchen@utexas.edu' },
-  headers:
-   { 'postman-token': '9c83b51d-e437-67bc-497a-1f7bc4d2dd98',
+		var options = { method: 'GET',
+  		url: 'http://localhost:5000/api/set_email',
+  		qs: { email: app.data.email },
+  	headers:
+   	{ 'postman-token': '9c83b51d-e437-67bc-497a-1f7bc4d2dd98',
      'cache-control': 'no-cache' } };
 
-request(options, function (error, response, body) {
-  if (error) throw new Error(error);
-
-  console.log(body);
-});
-*/
-		app.ask("Great! Do you need travel accomodations or would you like for us to arrange them?")
+	 request(options, function (error, response, body) {
+		 app.ask("Great! Do you need travel accomodations or would you like for us to arrange them?")
+	});
 	}
 
 	function needArrangement(app){
@@ -151,47 +116,49 @@ request(options, function (error, response, body) {
 		let adults = app.getArgument('adults')
 		app.data.kids = kids
 		app.data.adults = adults
-		/*
-		var request = require("request");
+		var options = { method: 'GET',
+  		url: 'http://localhost:5000/api/set_number_of_passengers',
+  		qs: { adults: app.data.adults, children: app.data.kids },
+  		headers:
+   		{ 'postman-token': '91045d48-20a9-5bb3-9dcc-ef6919385e18',
+     	'cache-control': 'no-cache' } };
 
-var options = { method: 'GET',
-  url: 'http://localhost:5000/api/set_number_of_passengers',
-  qs: { adults: '2', children: '1' },
-  headers:
-   { 'postman-token': '91045d48-20a9-5bb3-9dcc-ef6919385e18',
-     'cache-control': 'no-cache' } };
-
-request(options, function (error, response, body) {
-  if (error) throw new Error(error);
-
-  console.log(body);
-});
-*/
-		app.ask("Would you like to go by plane or car or would you like to look at both options?")
+	 	request(options, function (error, response, body) {
+		 	app.ask("Would you like to go by plane or car or would you like to look at both options?")
+		});
 	}
 	function getPlaneOrCar(app){
 		let choice = app.getArgument('choice')
 		app.data.choice = choice
-		/*
-		var request = require("request");
+		var options = { method: 'GET',
+  		url: 'http://localhost:5000/api/set_travel_option',
+  		qs: { option: 'Plane' },
+  		headers:
+   		{ 'postman-token': '3807ed1f-aa45-d275-d5f2-7ee73111409c',
+     	'cache-control': 'no-cache' } };
 
-var options = { method: 'GET',
-  url: 'http://localhost:5000/api/set_travel_option',
-  qs: { option: 'Plane' },
-  headers:
-   { 'postman-token': '3807ed1f-aa45-d275-d5f2-7ee73111409c',
-     'cache-control': 'no-cache' } };
+		request(options, function (error, response, body) {
+		var options = { method: 'GET',
+  		url: 'http://localhost:5000/api/send_email',
+  		headers:
+   		{ 'postman-token': '28a5f2f4-3d64-4b02-9c8e-374d604b88a5',
+	 	'cache-control': 'no-cache' } };
 
-request(options, function (error, response, body) {
-  if (error) throw new Error(error);
-
-  console.log(body);
-});
-*/
-		app.tell("Cool, we've got your details. Check your email for a full trip itinerary for you trip from " + app.data.city + " to " + app.data.destCity + ". Have a good time!")
+		request(options, function (error, response, body) {
+			app.tell("Cool, we've got your details. Check your email for a full trip itinerary for you trip from " + app.data.city + " to " + app.data.destCity + ". Have a good time!")
+		});
+	});
 	}
 	function noArrangement(app){
-		app.tell("Cool, we've got your details. Check your email for a full trip itinerary for you trip from " + app.data.city + " to " + app.data.destCity + ". Have a good time!")
+		var options = { method: 'GET',
+  		url: 'http://localhost:5000/api/send_email',
+  		headers:
+   		{ 'postman-token': '28a5f2f4-3d64-4b02-9c8e-374d604b88a5',
+     	'cache-control': 'no-cache' } };
+
+		request(options, function (error, response, body) {
+  		app.tell("Cool, we've got your details. Check your email for a full trip itinerary for you trip from " + app.data.city + " to " + app.data.destCity + ". Have a good time!")
+		});
 	}
 
   let actionMap = new Map();
