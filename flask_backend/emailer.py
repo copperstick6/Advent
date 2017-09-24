@@ -19,6 +19,16 @@ def generate_email(destination, start_location):
     lunch_json = explore.get_businesses(destination, "lunch").json()
     dinner_json = explore.get_businesses(destination, "dinner").json()
     flights_json = find_cheapest_flight(start_location, destination)
+    for venue in attractions_json['response']['groups'][0]['items']:
+        venue_id = venue["venue"]["id"]
+        response = explore.get_attraction_photo(venue_id)
+        if (response.json()["response"]["photos"]["count"] <= 0):
+            attractions_json['response']['groups'][0]['items'].remove(venue)
+        else:
+            photo = response.json()["response"]["photos"]["items"][0]
+            photo_url = photo["prefix"] + 'original' + photo["suffix"]
+            venue["venue"]["photo_url"] = photo_url
+
 
 def pop_attraction():
     if (attractions_json != None):

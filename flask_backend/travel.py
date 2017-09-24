@@ -23,7 +23,7 @@ def get_geocode_from_name(destination):
 def find_best_airplanes(origin, destination):
     origin_iata = get_iata(origin)
     destination_iata = get_iata(destination)
-    url = "https://www.googleapis.com/qpxExpress/v1/trips/search?key={0}".format(keys.get_google_places_key())
+    url = "https://www.googleapis.com/qpxExpress/v1/trips/search?key={0}&fields=trips/tripOption".format(keys.get_google_places_key())
     start_time_year, start_time_month, start_time_day, start_time_hour = model.get_start_time()
     end_time_year, end_time_month, end_time_day, end_time_hour = model.get_end_time()
     data = {
