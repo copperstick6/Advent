@@ -97,7 +97,7 @@ def get_flight():
     result = []
     for i in range(number):
         result.append(emailer.get_flight(i))
-    return json.dumps({'results' : result})
+    return result
 
 @app.route("/api/get_start_date")
 def get_start_date():
@@ -110,10 +110,11 @@ def get_data():
     start_year, start_month, start_day, start_hour = model.get_start_time()
     start_date = date(int(start_year), int(start_month), int(start_day))
     print(days)
+    flights = get_flight()
     result = []
     for i in range(1, days):
         result.append(generate_day(start_date+timedelta(days=i)))
-    return json.dumps({'result':result}, cls=SetEncoder)
+    return json.dumps({'flights': flights, 'result':result}, cls=SetEncoder)
 
 def generate_day(date):
     breakfast = get_breakfast_businesses()

@@ -30,6 +30,14 @@ def explore_attractions(destination):
         response = requests.get(url)
         return response
 
+# uses foursquare's venue id to find the appropriate image for attraction
+def get_attraction_photo(venue_id):
+    url = "https://api.foursquare.com/v2/venues/{0}/photos?client_id={1}&client_secret={2}&limit=2&v={3}&group=venue".format(venue_id, keys.get_foursquare_key(), keys.get_foursquare_secret(), "20170923")
+    response = requests.get(url)
+    print(response)
+    print(response.json())
+    return response
+
 # Foursquare authentication process (oauth2)
 
 def get_foursquare_token():
